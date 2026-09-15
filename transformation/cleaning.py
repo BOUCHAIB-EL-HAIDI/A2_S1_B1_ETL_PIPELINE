@@ -124,3 +124,50 @@ def clean_cities(cities):
     return df
 
 
+# =========================
+# Flatten weather JSON
+# =========================
+
+def flatten_weather_data(cities, weather_data):
+
+    rows = []
+
+    for city_index, city in enumerate(cities):
+
+        city_id = city_index + 1
+
+        daily = weather_data[city_index]["daily"]
+
+        for i in range(len(daily["time"])):
+
+            row = {
+                "city_id": city_id,
+                "date": daily["time"][i],
+
+                "temperature_max":
+                    daily["temperature_2m_max"][i],
+
+                "temperature_min":
+                    daily["temperature_2m_min"][i],
+
+                "precipitation":
+                    daily["precipitation_sum"][i],
+
+                "precipitation_probability":
+                    daily["precipitation_probability_max"][i],
+
+                "wind_speed":
+                    daily["wind_speed_10m_max"][i],
+
+                "wind_gusts":
+                    daily["wind_gusts_10m_max"][i],
+
+                "weather_code":
+                    daily["weather_code"][i]
+            }
+
+            rows.append(row)
+
+    return pd.DataFrame(rows)
+
+
