@@ -171,3 +171,102 @@ def flatten_weather_data(cities, weather_data):
     return pd.DataFrame(rows)
 
 
+# =========================
+# Clean weather
+# =========================
+
+def clean_weather(df):
+
+    df = df.copy()
+
+    # Convert date
+    df["date"] = pd.to_datetime(
+        df["date"],
+        errors="coerce"
+    )
+
+    # Numeric columns
+    numeric_columns = [
+        "temperature_max",
+        "temperature_min",
+        "precipitation",
+        "precipitation_probability",
+        "wind_speed",
+        "wind_gusts",
+        "weather_code"
+    ]
+
+    for column in numeric_columns:
+        df[column] = pd.to_numeric(
+            df[column],
+            errors="coerce"
+        )
+
+    # Check missing values created by conversion
+    missing_values = df.isna().sum()
+
+    print("\nMissing values after conversion:")
+    print(missing_values[missing_values > 0])
+
+    # Remove rows with missing critical values
+    df = df.dropna(
+        subset=[
+            "city_id",
+            "date"
+        ]
+    )
+
+    # Remove exact duplicates
+    df = df.drop_duplicates()
+
+    # One forecast per city/day
+    df = df.drop_duplicates(
+        subset=["city_id", "date"]
+    )
+
+    # =========================
+    # Data quality rules
+    # =========================
+
+    invalid_temperature = (
+        df["temperature_min"] >
+        df["temperature_max"]
+    )
+
+    invalid_precipitation = (
+        df["precipitation"] < 0
+    )
+
+    invalid_probability = (
+        (df["precipitation_probability"] < 0)
+        |
+        (df["precipitation_probability"] > 100)
+    )
+
+    invalid_wind = (
+        (df["wind_speed"] < 0)
+        |
+        (df["wind_gusts"] < 0)
+    )
+
+    invalid_rows = (
+        invalid_temperature
+        |
+        invalid_precipitation
+        |
+        invalid_probability
+        |
+        invalid_wind
+    )
+
+    print(
+        f"\nInvalid weather rows: "
+        f"{invalid_rows.sum()}"
+    )
+
+    # Remove invalid rows
+    df = df[~invalid_rows].copy()
+
+    return df
+
+
