@@ -46,3 +46,23 @@ def load_weather(filename):
         raise ValueError(f"Invalid JSON file: {e}")
 
 
+# =========================
+# Validate sources
+# =========================
+
+def validate_sources(cities, weather_data):
+
+    if len(cities) != len(weather_data):
+        raise ValueError(
+            f"Source mismatch: "
+            f"{len(cities)} cities but "
+            f"{len(weather_data)} weather locations."
+        )
+
+    print(
+        f"Source validation successful: "
+        f"{len(cities)} cities / "
+        f"{len(weather_data)} weather locations"
+    )
+
+
