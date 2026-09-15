@@ -66,3 +66,61 @@ def validate_sources(cities, weather_data):
     )
 
 
+# =========================
+# Clean cities
+# =========================
+
+def clean_cities(cities):
+
+    df = pd.DataFrame(cities)
+
+    # Keep only the columns we need
+    df = df[["city", "lat", "lng"]].copy()
+
+    # Convert coordinates to numeric
+    df["lat"] = pd.to_numeric(df["lat"], errors="coerce")
+    df["lng"] = pd.to_numeric(df["lng"], errors="coerce")
+
+    # Check for invalid coordinates
+    invalid_coordinates = (
+        df["lat"].isna()
+        | df["lng"].isna()
+        | ~df["lat"].between(-90, 90)
+        | ~df["lng"].between(-180, 180)
+    )
+
+    if invalid_coordinates.any():
+        raise ValueError(
+            f"Found {invalid_coordinates.sum()} cities "
+            f"with invalid coordinates."
+        )
+
+    # Check duplicate city names
+    if df["city"].duplicated().any():
+        raise ValueError("Duplicate city names detected.")
+
+    # Create a stable ID AFTER validation
+    df = df.reset_index(drop=True)
+    df["city_id"] = df.index + 1
+
+    # Rename columns
+    df = df.rename(
+        columns={
+            "lat": "latitude",
+            "lng": "longitude"
+        }
+    )
+
+    # Put city_id first
+    df = df[
+        [
+            "city_id",
+            "city",
+            "latitude",
+            "longitude"
+        ]
+    ]
+
+    return df
+
+
