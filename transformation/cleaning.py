@@ -286,3 +286,81 @@ def merge_cities_weather(cities_df, weather_df):
     return merged_df
 
 
+# =========================
+# Quality checks
+# =========================
+
+def quality_checks(
+    cities_df,
+    weather_df,
+    merged_df
+):
+
+    print("\n========== QUALITY CHECKS ==========")
+
+    print("\nCities:")
+    print(f"Rows: {len(cities_df)}")
+
+    print("\nCity missing values:")
+    print(cities_df.isna().sum())
+
+    print("\nWeather:")
+    print(f"Rows: {len(weather_df)}")
+
+    print("\nWeather missing values:")
+    print(weather_df.isna().sum())
+
+    print("\nWeather duplicates:")
+    print(
+        weather_df.duplicated(
+            subset=["city_id", "date"]
+        ).sum()
+    )
+
+    print("\nJoined data:")
+    print(f"Rows: {len(merged_df)}")
+
+    print("\nJoined missing values:")
+    print(merged_df.isna().sum())
+
+    print("\nJoined duplicates:")
+    print(
+        merged_df.duplicated(
+            subset=["city_id", "date"]
+        ).sum()
+    )
+
+    print("\n====================================")
+
+
+# =========================
+# Save Silver data
+# =========================
+
+def save_silver(
+    cities_df,
+    weather_df,
+    merged_df
+):
+
+    cities_df.to_csv(
+        CITIES_SILVER,
+        index=False,
+        encoding="utf-8"
+    )
+
+    weather_df.to_csv(
+        WEATHER_SILVER,
+        index=False,
+        encoding="utf-8"
+    )
+
+    merged_df.to_csv(
+        JOINED_SILVER,
+        index=False,
+        encoding="utf-8"
+    )
+
+    print("\nSilver data saved successfully.")
+
+
