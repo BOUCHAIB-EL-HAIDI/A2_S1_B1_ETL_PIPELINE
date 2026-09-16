@@ -129,3 +129,58 @@ def calculate_rain_features(df):
     return df
 
 
+# Calculate the risk caused by wind speed and wind gusts.
+def calculate_wind_risk(row):
+
+    wind_speed = row["wind_speed"]
+    wind_gusts = row["wind_gusts"]
+
+    if wind_speed < 40:
+        speed_risk = 0
+    elif wind_speed < 55:
+        speed_risk = 30
+    elif wind_speed < 70:
+        speed_risk = 60
+    else:
+        speed_risk = 100
+
+    if wind_gusts < 60:
+        gust_risk = 0
+    elif wind_gusts < 75:
+        gust_risk = 30
+    elif wind_gusts < 100:
+        gust_risk = 60
+    else:
+        gust_risk = 100
+
+    return max(speed_risk, gust_risk)
+
+
+# Convert the wind risk score into a category.
+def classify_wind_risk(risk):
+
+    if risk < 25:
+        return "Low"
+    elif risk < 50:
+        return "Moderate"
+    elif risk < 75:
+        return "High"
+    else:
+        return "Very High"
+
+
+# Create all wind-related features.
+def calculate_wind_features(df):
+
+    df["wind_risk"] = df.apply(
+        calculate_wind_risk,
+        axis=1
+    )
+
+    df["wind_category"] = df["wind_risk"].apply(
+        classify_wind_risk
+    )
+
+    return df
+
+
