@@ -270,3 +270,19 @@ def clean_weather(df):
     return df
 
 
+# =========================
+# Merge cities + weather
+# =========================
+
+def merge_cities_weather(cities_df, weather_df):
+
+    merged_df = pd.merge(
+        weather_df,
+        cities_df,
+        on="city_id",
+        how="inner"
+    )
+
+    return merged_df
+
+
