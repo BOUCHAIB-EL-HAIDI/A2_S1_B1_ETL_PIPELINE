@@ -184,3 +184,38 @@ def calculate_wind_features(df):
     return df
 
 
+# Calculate the global weather risk score.
+def calculate_risk_score(df):
+
+    df["risk_score"] = (
+        df["temperature_risk"] * 0.30
+        + df["rain_risk"] * 0.40
+        + df["wind_risk"] * 0.30
+    )
+
+    return df
+
+
+# Convert the global risk score into a risk level.
+def classify_risk_level(score):
+
+    if score < 25:
+        return "Low"
+    elif score < 50:
+        return "Moderate"
+    elif score < 75:
+        return "High"
+    else:
+        return "Very High"
+
+
+# Create the final risk level.
+def calculate_risk_level(df):
+
+    df["risk_level"] = df["risk_score"].apply(
+        classify_risk_level
+    )
+
+    return df
+
+
