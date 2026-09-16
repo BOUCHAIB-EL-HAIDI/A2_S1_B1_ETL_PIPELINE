@@ -364,3 +364,56 @@ def save_silver(
     print("\nSilver data saved successfully.")
 
 
+# =========================
+# Main pipeline
+# =========================
+
+def main():
+
+    # 1. Load Bronze
+    cities = load_cities(CITIES_FILE)
+    weather_data = load_weather(WEATHER_FILE)
+
+    # 2. Validate sources
+    validate_sources(
+        cities,
+        weather_data
+    )
+
+    # 3. Clean cities
+    cities_df = clean_cities(cities)
+
+    # 4. Flatten weather JSON
+    weather_df = flatten_weather_data(
+        cities,
+        weather_data
+    )
+
+    # 5. Clean weather
+    weather_df = clean_weather(
+        weather_df
+    )
+
+    # 6. Join cities + weather
+    merged_df = merge_cities_weather(
+        cities_df,
+        weather_df
+    )
+
+    # 7. Quality checks
+    quality_checks(
+        cities_df,
+        weather_df,
+        merged_df
+    )
+
+    # 8. Save Silver
+    save_silver(
+        cities_df,
+        weather_df,
+        merged_df
+    )
+
+
+if __name__ == "__main__":
+    main()
