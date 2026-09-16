@@ -1,0 +1,121 @@
+city_id,city,latitude,longitude
+1,Casablanca,33.5992,-7.62
+2,Tangier,35.7767,-5.8039
+3,Fès,34.0433,-5.0033
+4,Marrakech,31.6295,-7.9811
+5,Sale,34.05,-6.8167
+6,Meknès,33.8833,-5.55
+7,Rabat,34.0211,-6.8414
+8,Agadir,30.4214,-9.5831
+9,Kenitra,34.25,-6.5833
+10,Oujda-Angad,34.6867,-1.9114
+11,Tétouan,35.5667,-5.3667
+12,Safi,32.2833,-9.2333
+13,Taourirt,34.41,-2.89
+14,Temara,33.9234,-6.9076
+15,Laâyoune,27.15,-13.2
+16,El Jadid,33.2566,-8.5025
+17,Ait Melloul,30.3342,-9.4972
+18,Béni Mellal,32.3394,-6.3608
+19,Bouskoura,33.4489,-7.6486
+20,Tiznit,29.7,-9.7269
+21,Mohammedia,33.6833,-7.3833
+22,Kouribga,32.88,-6.9
+23,Settat,33.0023,-7.6198
+24,Barrechid,33.27,-7.5872
+25,Ad Dakhla,23.7167,-15.95
+26,Nador,35.1667,-2.9333
+27,Taza,34.2144,-4.0088
+28,Inezgane,30.3658,-9.5381
+29,Larache,35.1833,-6.15
+30,Al Khmissat,33.81,-6.06
+31,Guelmim,28.9833,-10.0667
+32,Ksar El Kebir,35.0,-5.9
+33,Khénifra,32.93,-5.66
+34,Skhirate,33.85,-7.03
+35,Beni Yakhlef,33.6555,-7.3221
+36,Sidi Yahya Zaer,33.7105,-6.8831
+37,Ben Guerir,32.23,-7.95
+38,Ait Ali,30.1739,-9.4881
+39,My Drarga,30.3805,-9.4763
+40,Lqoliaa,30.2942,-9.4544
+41,El Kelaa des Srarhna,32.05,-7.4
+42,Moulay Abdallah,33.1978,-8.5883
+43,Tiflet,33.9,-6.33
+44,Oulad Teïma,30.4,-9.21
+45,Berkane,34.9167,-2.3167
+46,Ain El Aouda,33.8111,-6.7922
+47,Errachidia,31.9319,-4.4244
+48,Al Fqih Ben Çalah,32.507,-6.6886
+49,Ad Darwa,33.4167,-7.5333
+50,Martil,35.61,-5.27
+51,Sidi Slimane,34.26,-5.93
+52,Oued Zem,32.8619,-6.5711
+53,Sefrou,33.83,-4.83
+54,Taroudannt,30.4711,-8.8778
+55,Essaouira,31.513,-9.7687
+56,Azrou,33.4344,-5.2213
+57,Guercif,34.23,-3.36
+58,Warzat,30.9167,-6.9167
+59,Fnidq,35.8414,-5.3587
+60,Tan-Tan,28.4333,-11.1
+61,Sidi Qacem,34.21,-5.7
+62,M’diq,35.68,-5.32
+63,Youssoufia,32.25,-8.53
+64,Midalt,32.68,-4.74
+65,Aïn Harrouda,33.6372,-7.4483
+66,Souq Sebt Oulad Nemma,32.3,-6.7
+67,Mehdya,34.2557,-6.6745
+68,Ouezzane,34.8,-5.6
+69,Semara,26.7394,-11.6703
+70,Ait Ourir,31.5644,-7.6628
+71,Oulad Tayeb,33.9598,-4.9954
+72,Tit Mellil,33.5533,-7.4822
+73,Sidi Bennour,32.655,-8.4292
+74,Temsia,30.3633,-9.4144
+75,Biougra,30.2144,-9.3708
+76,Al Hoceïma,35.2472,-3.9322
+77,Qasbat Tadla,32.6,-6.26
+78,Aziylal,31.96,-6.56
+79,Boujad,32.7741,-6.3925
+80,Al Aaroui,35.0104,-3.0073
+81,Mrirt,33.1654,-5.5634
+82,Tineghir,31.5147,-5.5328
+83,Bouknadel,34.1766,-6.6893
+84,Cabo Bojador,26.1269,-14.4992
+85,Zagora,30.3316,-5.8376
+86,Azemmour,33.2833,-8.3333
+87,El Hajeb,33.6928,-5.3711
+88,Jerada,34.31,-2.16
+89,El Aïoun,34.5726,-2.5127
+90,Tameslouht,31.5,-8.1
+91,Sidi Yahia El Gharb,34.3058,-6.3058
+92,Chichaoua,31.5333,-8.7667
+93,Al ’Attawia,31.83,-7.31
+94,Tabount,30.9014,-6.9217
+95,Zaïo,34.9396,-2.7334
+96,Aguelmous,33.1324,-5.8366
+97,Asilah,35.4667,-6.0333
+98,Imzouren,35.1464,-3.8506
+99,Mediouna,33.4556,-7.5208
+100,Demnat,31.7311,-7.0361
+101,Aïn Taoujdat,33.9333,-5.2167
+102,Sidi Smai’il,32.8167,-8.5
+103,Moulay Bousselham,34.8786,-6.2933
+104,Mechraa Bel Ksiri,34.56,-5.95
+105,Souk et Tnine Jorf el Mellah,34.4945,-5.5047
+106,Zeghanghane,35.1575,-3.0017
+107,Oulad Barhil,30.6408,-8.475
+108,Bir Jdid,33.3737,-8.0002
+109,Bou Arfa,32.531,-1.9631
+110,Tahannawt,31.3514,-7.9508
+111,Arfoud,31.4361,-4.2328
+112,Tahla,34.05,-4.42
+113,Missour,33.05,-3.9908
+114,Sidi Lmokhtar,31.57,-9.01
+115,Douar Toulal,33.8951,-5.6021
+116,Oulad Yaïch,32.4167,-6.3333
+117,Zawyat ech Cheïkh,32.6541,-5.9214
+118,Imi-n-Tanout,31.177,-8.8504
+119,Sebt Gzoula,32.1219,-9.0889
+120,Tifariti,26.158,-10.567
