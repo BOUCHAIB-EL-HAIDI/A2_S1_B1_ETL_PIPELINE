@@ -89,3 +89,43 @@ def calculate_temperature_features(df):
     return df
 
 
+# Calculate the risk caused by daily precipitation.
+def calculate_rain_risk(precipitation):
+
+    if precipitation <= 5:
+        return 0
+    elif precipitation <= 20:
+        return 30
+    elif precipitation <= 40:
+        return 60
+    else:
+        return 100
+
+
+# Convert the rain risk score into a category.
+def classify_rain_risk(risk):
+
+    if risk < 25:
+        return "Low"
+    elif risk < 50:
+        return "Moderate"
+    elif risk < 75:
+        return "High"
+    else:
+        return "Very High"
+
+
+# Create all rain-related features.
+def calculate_rain_features(df):
+
+    df["rain_risk"] = df["precipitation"].apply(
+        calculate_rain_risk
+    )
+
+    df["rain_category"] = df["rain_risk"].apply(
+        classify_rain_risk
+    )
+
+    return df
+
+
