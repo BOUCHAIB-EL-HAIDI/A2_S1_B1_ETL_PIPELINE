@@ -219,3 +219,114 @@ def calculate_risk_level(df):
     return df
 
 
+# Select only the columns needed for the Gold table.
+def prepare_gold_data(df):
+
+    return df[
+        [
+            "city_id",
+            "date",
+            "temperature_category",
+            "rain_category",
+            "wind_category",
+            "temperature_risk",
+            "rain_risk",
+            "wind_risk",
+            "risk_score",
+            "risk_level"
+        ]
+    ]
+
+
+# Load Gold data into PostgreSQL.
+# A staging table is used before performing the final UPSERT.
+def load_gold_data(df):
+
+    try:
+
+        # Load the DataFrame into a temporary staging table.
+        df.to_sql(
+            "weather_risks_staging",
+            engine,
+            if_exists="replace",
+            index=False
+        )
+
+        # Insert new records and update existing records.
+        upsert_query = text("""
+            INSERT INTO weather_risks (
+                city_id,
+                date,
+                temperature_category,
+                rain_category,
+                wind_category,
+                temperature_risk,
+                rain_risk,
+                wind_risk,
+                risk_score,
+                risk_level
+            )
+            SELECT
+                city_id,
+                date,
+                temperature_category,
+                rain_category,
+                wind_category,
+                temperature_risk,
+                rain_risk,
+                wind_risk,
+                risk_score,
+                risk_level
+            FROM weather_risks_staging
+
+            ON CONFLICT (city_id, date)
+            DO UPDATE SET
+                temperature_category = EXCLUDED.temperature_category,
+                rain_category = EXCLUDED.rain_category,
+                wind_category = EXCLUDED.wind_category,
+                temperature_risk = EXCLUDED.temperature_risk,
+                rain_risk = EXCLUDED.rain_risk,
+                wind_risk = EXCLUDED.wind_risk,
+                risk_score = EXCLUDED.risk_score,
+                risk_level = EXCLUDED.risk_level;
+        """)
+
+        with engine.begin() as connection:
+            connection.execute(upsert_query)
+
+        print(f"{len(df)} Gold records loaded successfully.")
+
+    except Exception as e:
+        print(f"Could not load Gold data: {e}")
+
+
+# Run the complete Gold transformation pipeline.
+def main():
+
+    df = load_weather()
+
+    if df.empty:
+        return
+
+    df = calculate_temperature_features(df)
+
+    df = calculate_rain_features(df)
+
+    df = calculate_wind_features(df)
+
+    df = calculate_risk_score(df)
+
+    df = calculate_risk_level(df)
+
+    gold_df = prepare_gold_data(df)
+
+    gold_df.to_csv(
+        "data/gold/weather_ready.csv",
+        index=False
+    )
+
+    load_gold_data(gold_df)
+
+
+if __name__ == "__main__":
+    main()
