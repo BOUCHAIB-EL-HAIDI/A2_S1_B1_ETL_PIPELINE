@@ -87,6 +87,107 @@ col5.metric(
 
 df["date"] = pd.to_datetime(df["date"]).dt.date
 
+with st.sidebar:
+    st.header("Filters")
+
+    # City filter
+    selected_city = st.selectbox(
+        "City",
+        ["All"] + sorted(df["city"].unique().tolist())
+    )
+
+    # Period filter
+    selected_period = st.selectbox(
+        "Period",
+        [
+            "All forecast",
+            "Today",
+            "Tomorrow",
+            "Next 3 days",
+            "Next 7 days"
+        ]
+    )
+
+    # Determine the beginning of the forecast.
+    forecast_start = df["date"].min()
+
+    if selected_period == "Today":
+        period_start = forecast_start
+        period_end = forecast_start
+
+    elif selected_period == "Tomorrow":
+        period_start = forecast_start + timedelta(days=1)
+        period_end = period_start
+
+    elif selected_period == "Next 3 days":
+        period_start = forecast_start
+        period_end = forecast_start + timedelta(days=2)
+
+    elif selected_period == "Next 7 days":
+        period_start = forecast_start
+        period_end = forecast_start + timedelta(days=6)
+
+    else:
+        period_start = df["date"].min()
+        period_end = df["date"].max()
+
+    # Get dates available inside the selected period.
+    available_dates = sorted(
+        df[
+            (df["date"] >= period_start)
+            & (df["date"] <= period_end)
+        ]["date"].unique()
+    )
+
+    # Date filter
+    selected_date = st.selectbox(
+        "Date",
+        ["All"] + available_dates
+    )
+
+    # Risk level filter
+    selected_risk = st.selectbox(
+        "Risk level",
+        [
+            "All",
+            "Low",
+            "Moderate",
+            "High",
+            "Very High"
+        ]
+    )
 
 
-st.dataframe(df)
+
+filtered_df = df.copy()
+
+
+if selected_city != "All":
+    filtered_df = filtered_df[
+        filtered_df["city"] == selected_city
+    ]
+
+
+filtered_df = filtered_df[
+    (filtered_df["date"] >= period_start)
+    & (filtered_df["date"] <= period_end)
+]
+
+
+if selected_date != "All":
+    filtered_df = filtered_df[
+        filtered_df["date"] == selected_date
+    ]
+
+
+if selected_risk != "All":
+    filtered_df = filtered_df[
+        filtered_df["risk_level"] == selected_risk
+    ]
+
+
+
+st.header("Filtered Weather Data")
+
+st.dataframe(filtered_df)
+
