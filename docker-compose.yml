@@ -23,6 +23,7 @@ services:
       - "8501:8501"
     depends_on:
       - postgres
+    command: streamlit run dashboard/app.py --server.address=0.0.0.0
 
   pgadmin:
     image: dpage/pgadmin4
