@@ -19,7 +19,7 @@ DAILY_VARIABLES = ",".join([
 ])
 
 
-def main():
+def extract_weather():
 
     # Read all Moroccan cities
     with open(CITIES_FILE, "r", encoding="utf-8") as file:
@@ -67,9 +67,8 @@ def main():
     except ValueError as e:
         print(f"Invalid JSON response: {e}")
 
+    except OSError as e:
+        print(f"Could not save weather data: {e}")
+
     except Exception as e:
         print(f"Unexpected error: {e}")
-
-
-if __name__ == "__main__":
-    main()

@@ -46,10 +46,6 @@ df = pd.read_sql(query, engine)
 
 st.title("Weather Risk Dashboard")
 
-st.header("Weather Risk Analysis")
-
-st.write("Weather analysis for delivery operations.")
-
 st.header("Key Performance Indicators")
 
 col1, col2, col3, col4, col5 = st.columns(5)

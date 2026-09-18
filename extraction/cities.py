@@ -1,26 +1,27 @@
 import requests
 
-url = "https://simplemaps.com/static/data/country-cities/ma/ma.csv"
+URL = "https://simplemaps.com/static/data/country-cities/ma/ma.csv"
+OUTPUT_FILE = "data/bronze/cities/ma_cities.csv"
 
 
-try:
-    response = requests.get(url , timeout=10)
-    response.raise_for_status()
-    response.encoding = "utf-8"
+def extract_cities():
+    try:
+        response = requests.get(URL, timeout=10)
+        response.raise_for_status()
+        response.encoding = "utf-8"
 
-    print("request successfull")
-    with open("data/bronze/cities/ma_cities.csv" , "w" , encoding="utf_8") as file:
-        file.write(response.text)
+        print("Request successful")
 
-except requests.exceptions.RequestException as e:
-    print(f"Request failed : {e}")
-except Exception as e:
-    print(f"Unexpected error: {e}")
+        with open(OUTPUT_FILE, "w", encoding="utf-8") as file:
+            file.write(response.text)
 
+        print("Cities data extracted successfully.")
 
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
 
+    except OSError as e:
+        print(f"Could not save cities data: {e}")
 
-
-
-
-
+    except Exception as e:
+        print(f"Unexpected error: {e}")

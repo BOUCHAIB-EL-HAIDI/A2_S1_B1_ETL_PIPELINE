@@ -12,6 +12,21 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  airflow:
+    image: apache/airflow:3.0.6
+    container_name: weather_airflow
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./extraction:/opt/airflow/extraction
+      - ./transformation:/opt/airflow/transformation
+      - ./load:/opt/airflow/load
+      - ./data:/opt/airflow/data
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      PYTHONPATH: /opt/airflow
+    ports:
+      - "8080:8080"
+    command: standalone
   python:
     build:
       context: .

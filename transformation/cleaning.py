@@ -3,9 +3,7 @@ import json
 import pandas as pd
 
 
-# =========================
-# File paths
-# =========================
+
 
 CITIES_FILE = "data/bronze/cities/ma_cities.csv"
 WEATHER_FILE = "data/bronze/weather/weather.json"
@@ -15,9 +13,7 @@ WEATHER_SILVER = "data/silver/weather_clean.csv"
 JOINED_SILVER = "data/silver/weather_joined.csv"
 
 
-# =========================
-# Load Bronze data
-# =========================
+
 
 def load_cities(filename):
     try:
@@ -46,9 +42,6 @@ def load_weather(filename):
         raise ValueError(f"Invalid JSON file: {e}")
 
 
-# =========================
-# Validate sources
-# =========================
 
 def validate_sources(cities, weather_data):
 
@@ -66,9 +59,7 @@ def validate_sources(cities, weather_data):
     )
 
 
-# =========================
-# Clean cities
-# =========================
+
 
 def clean_cities(cities):
 
@@ -124,9 +115,7 @@ def clean_cities(cities):
     return df
 
 
-# =========================
-# Flatten weather JSON
-# =========================
+
 
 def flatten_weather_data(cities, weather_data):
 
@@ -171,9 +160,7 @@ def flatten_weather_data(cities, weather_data):
     return pd.DataFrame(rows)
 
 
-# =========================
-# Clean weather
-# =========================
+
 
 def clean_weather(df):
 
@@ -224,9 +211,7 @@ def clean_weather(df):
         subset=["city_id", "date"]
     )
 
-    # =========================
-    # Data quality rules
-    # =========================
+ 
 
     invalid_temperature = (
         df["temperature_min"] >
@@ -270,9 +255,7 @@ def clean_weather(df):
     return df
 
 
-# =========================
-# Merge cities + weather
-# =========================
+
 
 def merge_cities_weather(cities_df, weather_df):
 
@@ -286,9 +269,7 @@ def merge_cities_weather(cities_df, weather_df):
     return merged_df
 
 
-# =========================
-# Quality checks
-# =========================
+
 
 def quality_checks(
     cities_df,
@@ -333,9 +314,7 @@ def quality_checks(
     print("\n====================================")
 
 
-# =========================
-# Save Silver data
-# =========================
+
 
 def save_silver(
     cities_df,
@@ -364,11 +343,9 @@ def save_silver(
     print("\nSilver data saved successfully.")
 
 
-# =========================
-# Main pipeline
-# =========================
 
-def main():
+
+def clean_data():
 
     # 1. Load Bronze
     cities = load_cities(CITIES_FILE)
@@ -414,6 +391,3 @@ def main():
         merged_df
     )
 
-
-if __name__ == "__main__":
-    main()

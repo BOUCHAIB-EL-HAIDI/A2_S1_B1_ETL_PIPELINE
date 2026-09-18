@@ -44,8 +44,14 @@ An automated end-to-end ETL pipeline built with Python, PostgreSQL, Docker, and 
 - `sql/shema.sql`: Relational database schema with primary keys, foreign keys, and indexes for `cities`, `weather_forecasts`, and `weather_risks`.
 - `sql/analysis.sql`: Analytical SQL queries for aggregating risk metrics.
 
-### 5. Web Dashboard
+### 5. Workflow Orchestration (Airflow)
+- `dags/weather_pipeline.py`: Apache Airflow DAG orchestrating the end-to-end pipeline execution from data extraction to cleaning, validation, risk calculations, and database loading.
+
+### 6. Web Dashboard
 - `dashboard/app.py`: Interactive Streamlit application connecting directly to PostgreSQL to display city-level forecasts, key performance indicators, risk evaluation, and an interactive geographic map using PyDeck.
+
+### 7. Architecture & UML
+- `Uml/class diagrame weather.png`: Class and system architecture diagram modeling the pipeline components.
 
 ---
 
@@ -63,6 +69,7 @@ docker-compose up -d --build
 | Service | URL / Port | Description |
 |---|---|---|
 | **Streamlit Dashboard** | `http://localhost:8501` | Interactive analytics dashboard |
+| **Apache Airflow** | `http://localhost:8080` | Pipeline orchestration & DAG management |
 | **pgAdmin 4** | `http://localhost:5050` | Database web manager (`admin@example.com` / `admin`) |
 | **PostgreSQL** | `localhost:5432` | Relational database (`weather_user` / `weather_password`) |
 
