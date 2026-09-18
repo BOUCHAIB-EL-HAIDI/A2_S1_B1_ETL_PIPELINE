@@ -191,3 +191,68 @@ st.header("Filtered Weather Data")
 
 st.dataframe(filtered_df)
 
+st.header("Weather Risk Map")
+
+
+
+map_df = (
+    filtered_df
+    .sort_values("risk_score", ascending=False)
+    .drop_duplicates("city")
+    .copy()
+)
+
+
+risk_colors = {
+    "Low": [0, 180, 0],
+    "Moderate": [255, 200, 0],
+    "High": [255, 140, 0],
+    "Very High": [220, 0, 0]
+}
+
+map_df["color"] = map_df["risk_level"].map(risk_colors)
+
+
+layer = pdk.Layer(
+    "ScatterplotLayer",
+    data=map_df,
+    get_position="[longitude, latitude]",
+    get_fill_color="color",
+    get_radius=10000,
+    pickable=True
+)
+
+
+view_state = pdk.ViewState(
+    latitude=31.8,
+    longitude=-7.1,
+    zoom=5.2
+)
+
+
+deck = pdk.Deck(
+    layers=[layer],
+    initial_view_state=view_state,
+    tooltip={
+        "html": """
+            <b>{city}</b><br/>
+            Risk level: {risk_level}<br/>
+            Risk score: {risk_score}<br/>
+            Date: {date}
+        """
+    }
+)
+
+
+st.pydeck_chart(deck)
+
+st.markdown(
+    """
+    **Risk Level**
+
+    🟢 Low &nbsp;&nbsp;
+    🟡 Moderate &nbsp;&nbsp;
+    🟠 High &nbsp;&nbsp;
+    🔴 Very High
+    """
+)
