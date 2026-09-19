@@ -8,3 +8,4 @@ htmlcov/
 .DS_Store
 Thumbs.db
 weather_data.json
+.env
