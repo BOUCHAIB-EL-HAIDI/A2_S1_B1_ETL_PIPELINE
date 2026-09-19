@@ -13,7 +13,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   airflow:
-    image: apache/airflow:3.0.6
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
     container_name: weather_airflow
     volumes:
       - ./dags:/opt/airflow/dags
@@ -27,6 +29,7 @@ services:
     ports:
       - "8080:8080"
     command: standalone
+
   python:
     build:
       context: .

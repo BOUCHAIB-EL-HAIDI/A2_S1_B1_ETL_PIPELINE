@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, text
 
 # Connect to the PostgreSQL database.
 DATABASE_URL = (
-    "postgresql+psycopg://"
+    "postgresql+psycopg2://"
     "weather_user:weather_password@postgres:5432/weather_db"
 )
 
@@ -301,7 +301,7 @@ def load_gold_data(df):
 
 
 # Run the complete Gold transformation pipeline.
-def main():
+def calculate_risks():
 
     df = load_weather()
 
@@ -328,5 +328,3 @@ def main():
     load_gold_data(gold_df)
 
 
-if __name__ == "__main__":
-    main()

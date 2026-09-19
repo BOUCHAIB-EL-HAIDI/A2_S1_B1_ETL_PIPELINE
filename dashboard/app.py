@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 from sqlalchemy import create_engine
-from datetime import timedelta
+from datetime import timedelta, date
 import pydeck as pdk
 
 DATABASE_URL = (
@@ -86,62 +86,40 @@ df["date"] = pd.to_datetime(df["date"]).dt.date
 with st.sidebar:
     st.header("Filters")
 
-    # City filter
     selected_city = st.selectbox(
         "City",
         ["All"] + sorted(df["city"].unique().tolist())
     )
 
-    # Period filter
-    selected_period = st.selectbox(
-        "Period",
-        [
-            "All forecast",
-            "Today",
-            "Tomorrow",
-            "Next 3 days",
-            "Next 7 days"
-        ]
+    min_date = df["date"].min()
+    max_date = df["date"].max()
+
+    selected_from = st.date_input(
+        "From",
+        value=min_date,
+        min_value=min_date,
+        max_value=max_date
     )
 
-    # Determine the beginning of the forecast.
-    forecast_start = df["date"].min()
+    selected_to = st.date_input(
+        "To",
+        value=max_date,
+        min_value=min_date,
+        max_value=max_date
+    )
 
-    if selected_period == "Today":
-        period_start = forecast_start
-        period_end = forecast_start
-
-    elif selected_period == "Tomorrow":
-        period_start = forecast_start + timedelta(days=1)
-        period_end = period_start
-
-    elif selected_period == "Next 3 days":
-        period_start = forecast_start
-        period_end = forecast_start + timedelta(days=2)
-
-    elif selected_period == "Next 7 days":
-        period_start = forecast_start
-        period_end = forecast_start + timedelta(days=6)
-
-    else:
-        period_start = df["date"].min()
-        period_end = df["date"].max()
-
-    # Get dates available inside the selected period.
     available_dates = sorted(
         df[
-            (df["date"] >= period_start)
-            & (df["date"] <= period_end)
+            (df["date"] >= selected_from)
+            & (df["date"] <= selected_to)
         ]["date"].unique()
     )
 
-    # Date filter
     selected_date = st.selectbox(
         "Date",
         ["All"] + available_dates
     )
 
-    # Risk level filter
     selected_risk = st.selectbox(
         "Risk level",
         [
@@ -153,28 +131,22 @@ with st.sidebar:
         ]
     )
 
-
-
 filtered_df = df.copy()
 
-
-if selected_city != "All":
-    filtered_df = filtered_df[
-        filtered_df["city"] == selected_city
-    ]
-
-
 filtered_df = filtered_df[
-    (filtered_df["date"] >= period_start)
-    & (filtered_df["date"] <= period_end)
+    (filtered_df["date"] >= selected_from)
+    & (filtered_df["date"] <= selected_to)
 ]
-
 
 if selected_date != "All":
     filtered_df = filtered_df[
         filtered_df["date"] == selected_date
     ]
 
+if selected_city != "All":
+    filtered_df = filtered_df[
+        filtered_df["city"] == selected_city
+    ]
 
 if selected_risk != "All":
     filtered_df = filtered_df[
@@ -252,3 +224,19 @@ st.markdown(
     🔴 Very High
     """
 )
+
+st.header("High and Very High Risk Cities")
+
+high_risk_df = filtered_df[
+    filtered_df["risk_level"].isin(["High", "Very High"])
+]
+
+risk_by_city = (
+    high_risk_df
+    .groupby(["city", "risk_level"])["risk_score"]
+    .max()
+    .reset_index()
+    .sort_values("risk_score", ascending=False)
+)
+
+st.dataframe(risk_by_city)
